@@ -1,0 +1,51 @@
+#include "LynxApp.h"
+#include "Moose.h"
+#include "AppFactory.h"
+
+template<>
+InputParameters validParams<LynxApp>()
+{
+  InputParameters params = validParams<MooseApp>();
+
+  params.set<bool>("use_legacy_uo_initialization") = false;
+  params.set<bool>("use_legacy_uo_aux_computation") = false;
+  return params;
+}
+
+LynxApp::LynxApp(const std::string & name, InputParameters parameters) :
+    MooseApp(name, parameters)
+{
+  srand(processor_id());
+
+  Moose::registerObjects(_factory);
+  LynxApp::registerObjects(_factory);
+
+  Moose::associateSyntax(_syntax, _action_factory);
+  LynxApp::associateSyntax(_syntax, _action_factory);
+}
+
+LynxApp::~LynxApp()
+{
+}
+
+// External entry point for dynamic application loading
+extern "C" void LynxApp__registerApps() { LynxApp::registerApps(); }
+void
+LynxApp::registerApps()
+{
+  registerApp(LynxApp);
+}
+
+// External entry point for dynamic object registration
+extern "C" void LynxApp__registerObjects(Factory & factory) { LynxApp::registerObjects(factory); }
+void
+LynxApp::registerObjects(Factory & factory)
+{
+}
+
+// External entry point for dynamic syntax association
+extern "C" void LynxApp__associateSyntax(Syntax & syntax, ActionFactory & action_factory) { LynxApp::associateSyntax(syntax, action_factory); }
+void
+LynxApp::associateSyntax(Syntax & syntax, ActionFactory & action_factory)
+{
+}

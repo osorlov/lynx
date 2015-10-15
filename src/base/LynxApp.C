@@ -1,10 +1,10 @@
-#include "StorkApp.h"
+#include "LynxApp.h"
 #include "Moose.h"
 #include "AppFactory.h"
 #include "ModulesApp.h"
 
 template<>
-InputParameters validParams<StorkApp>()
+InputParameters validParams<LynxApp>()
 {
   InputParameters params = validParams<MooseApp>();
 
@@ -15,40 +15,40 @@ InputParameters validParams<StorkApp>()
   return params;
 }
 
-StorkApp::StorkApp(InputParameters parameters) :
+LynxApp::LynxApp(InputParameters parameters) :
     MooseApp(parameters)
 {
   Moose::registerObjects(_factory);
   ModulesApp::registerObjects(_factory);
-  StorkApp::registerObjects(_factory);
+  LynxApp::registerObjects(_factory);
 
   Moose::associateSyntax(_syntax, _action_factory);
   ModulesApp::associateSyntax(_syntax, _action_factory);
-  StorkApp::associateSyntax(_syntax, _action_factory);
+  LynxApp::associateSyntax(_syntax, _action_factory);
 }
 
-StorkApp::~StorkApp()
+LynxApp::~LynxApp()
 {
 }
 
 // External entry point for dynamic application loading
-extern "C" void StorkApp__registerApps() { StorkApp::registerApps(); }
+extern "C" void LynxApp__registerApps() { LynxApp::registerApps(); }
 void
-StorkApp::registerApps()
+LynxApp::registerApps()
 {
-  registerApp(StorkApp);
+  registerApp(LynxApp);
 }
 
 // External entry point for dynamic object registration
-extern "C" void StorkApp__registerObjects(Factory & factory) { StorkApp::registerObjects(factory); }
+extern "C" void LynxApp__registerObjects(Factory & factory) { LynxApp::registerObjects(factory); }
 void
-StorkApp::registerObjects(Factory & factory)
+LynxApp::registerObjects(Factory & factory)
 {
 }
 
 // External entry point for dynamic syntax association
-extern "C" void StorkApp__associateSyntax(Syntax & syntax, ActionFactory & action_factory) { StorkApp::associateSyntax(syntax, action_factory); }
+extern "C" void LynxApp__associateSyntax(Syntax & syntax, ActionFactory & action_factory) { LynxApp::associateSyntax(syntax, action_factory); }
 void
-StorkApp::associateSyntax(Syntax & syntax, ActionFactory & action_factory)
+LynxApp::associateSyntax(Syntax & syntax, ActionFactory & action_factory)
 {
 }
